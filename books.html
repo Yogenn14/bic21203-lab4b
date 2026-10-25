@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab 4b - Question 2</title>
+</head>
+<body>
+
+  <h2>Book Details</h2>
+  <p id="firstBook"></p>
+  <p id="secondAuthor"></p>
+  <p id="allGenres"></p>
+
+  <script>
+    fetch("books.json")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        // (a) Title of the first book
+        document.getElementById("firstBook").textContent = 
+          "First Book Title: " + data.books[0].title;
+
+        // (b) Author of the second book
+        document.getElementById("secondAuthor").textContent = 
+          "Second Book Author: " + data.books[1].author;
+
+        // (c) Genres of both books, grouped by title
+        let genresText = "Genres:\n" +
+          data.books[0].title + " — " + data.books[0].genres.join(", ") + "\n" +
+          data.books[1].title + " — " + data.books[1].genres.join(", ");
+
+        document.getElementById("allGenres").innerText = genresText;
+      })
+      .catch(error => {
+        document.getElementById("firstBook").textContent = "Error: " + error.message;
+      });
+  </script>
+
+</body>
+</html>
